@@ -1,0 +1,58 @@
+h2 {
+  grid-area: h2;
+  text-align: center;
+  color: #495057;
+}
+
+#form {
+  grid-area: form;
+  display: grid;
+  grid-template-areas: "select . button inputs";
+  grid-template-columns: 3fr 30px 1fr 4fr;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  padding: 0 20px;
+  /* border: 1px solid black; */
+}
+
+select {
+  grid-area: select;
+  width: 100%;
+  height: 50%;
+  font-size: large;
+}
+
+button {
+  grid-area: button;
+  width: 80%;
+  height: 50%;
+}
+
+input {
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  font-size: large;
+}
+
+.inputs {
+  grid-area: inputs;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50%;
+  /* border: 1px solid black; */
+}
+
+/* #input1 {
+  grid-area: input1;
+  width: 90%;
+  height: 50%;
+}
+
+#input2 {
+  grid-area: input2;
+  width: 90%;
+  height: 50%; */

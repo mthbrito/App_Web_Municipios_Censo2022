@@ -1,0 +1,360 @@
+<!-- <section class="aside grid grid-cols-3 gap-2 p-2">
+  @for(estado of estados; track estado){
+  <button
+    type="button"
+    class="btn btn-primary m-1"
+    (click)="onEstadoClick(estado)"
+  >
+    {{ estado }}</button
+  >} -->
+
+<!-- <section class="aside space-y-4 p-2">
+  <h6 class="font-bold">Centro-Oeste</h6>
+  <div class="grid grid-cols-3 gap-2">
+    @for (estado of centroOeste; track estado) {
+      <button
+        type="button"
+        class="btn btn-primary m-1"
+        (click)="onEstadoClick(estado)"
+      >
+        {{ estado }}
+      </button>
+    }
+  </div>
+</section> -->
+<section class="aside p-2">
+  <h6 class="fw-bold text-center mb-2">
+    <button
+      class="collapse-btn"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#centroOeste"
+      aria-expanded="true"
+      aria-controls="centroOeste"
+    >
+      Centro-Oeste
+      <span class="collapse-arrow">&#9662;</span> <!-- seta para baixo -->
+    </button>
+  </h6>
+  <div class="collapse show" id="centroOeste">
+    <div class="row g-1">
+      @for (estado of centroOeste; track estado) {
+        <div class="col-3">
+          <button type="button" class="btn w-100" id="co" (click)="onEstadoClick(estado)">
+            {{ estado }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+
+
+<!-- <section class="aside p-2">
+  <h6 class="fw-bold text-center">Centro-Oeste</h6>
+  <div class="row g-1">
+    @for (estado of centroOeste; track estado) {
+      <div class="col-3">
+        <button
+          type="button"
+          id="co"
+          class="btn w-100"
+          (click)="onEstadoClick(estado)"
+        >
+          {{ estado }}
+        </button>
+      </div>
+    }
+  </div>
+</section> -->
+<hr class="divider" />
+<section class="aside p-2">
+  <h6 class="fw-bold text-center mb-2">
+    <button
+      class="collapse-btn"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#nordeste"
+      aria-expanded="true"
+      aria-controls="nordeste"
+    >
+      Nordeste
+      <span class="collapse-arrow">&#9662;</span> <!-- seta para baixo -->
+    </button>
+  </h6>
+  <div class="collapse show" id="nordeste">
+    <div class="row g-1">
+      @for (estado of nordeste; track estado) {
+        <div class="col-3">
+          <button type="button" class="btn w-100" id="ne" (click)="onEstadoClick(estado)">
+            {{ estado }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- <section class="aside space-y-4 p-2">
+  <h6 class="font-bold">Nordeste</h6>
+  <div class="grid grid-cols-3 gap-2">
+    @for (estado of nordeste; track estado) {
+      <button
+        type="button"
+        class="btn btn-warning m-1"
+        (click)="onEstadoClick(estado)"
+      >
+        {{ estado }}
+      </button>
+    }
+  </div>
+</section> -->
+
+<!-- <section class="aside space-y-4 p-2">
+  <h6 class="font-bold">Norte</h6>
+  <div class="grid grid-cols-3 gap-2">
+    @for (estado of norte; track estado) {
+      <button
+        type="button"
+        class="btn btn-success m-1"
+        (click)="onEstadoClick(estado)"
+      >
+        {{ estado }}
+      </button>
+    }
+  </div>
+</section> -->
+
+<section class="aside p-2">
+  <h6 class="fw-bold text-center mb-2">
+    <button
+      class="collapse-btn"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#norte"
+      aria-expanded="true"
+      aria-controls="norte"
+    >
+      Norte
+      <span class="collapse-arrow">&#9662;</span> <!-- seta para baixo -->
+    </button>
+  </h6>
+  <div class="collapse show" id="norte">
+    <div class="row g-1">
+      @for (estado of norte; track estado) {
+        <div class="col-3">
+          <button type="button" class="btn w-100" id="n" (click)="onEstadoClick(estado)">
+            {{ estado }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+<hr class="divider" />
+<section class="aside p-2">
+  <h6 class="fw-bold text-center mb-2">
+    <button
+      class="collapse-btn"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#sudeste"
+      aria-expanded="true"
+      aria-controls="sudeste"
+    >
+      Sudeste
+      <span class="collapse-arrow">&#9662;</span> <!-- seta para baixo -->
+    </button>
+  </h6>
+  <div class="collapse show" id="sudeste">
+    <div class="row g-1">
+      @for (estado of sudeste; track estado) {
+        <div class="col-3">
+          <button type="button" class="btn w-100" id="se" (click)="onEstadoClick(estado)">
+            {{ estado }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+<hr class="divider" />
+<!-- <section class="aside space-y-4 p-2">
+  <h6 class="font-bold">Sudeste</h6>
+  <div class="grid grid-cols-3 gap-2">
+    @for (estado of sudeste; track estado) {
+      <button
+        type="button"
+        class="btn btn-info m-1"
+        (click)="onEstadoClick(estado)"
+      >
+        {{ estado }}
+      </button>
+    }
+  </div>
+</section> -->
+<section class="aside p-2">
+  <h6 class="fw-bold text-center mb-2">
+    <button
+      class="collapse-btn"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#sul"
+      aria-expanded="true"
+      aria-controls="sul"
+    >
+      Sul
+      <span class="collapse-arrow">&#9662;</span>
+    </button>
+  </h6>
+  <div class="collapse show" id="sul">
+    <div class="row g-1">
+      @for (estado of sul; track estado) {
+        <div class="col-3">
+          <button type="button" class="btn w-100" id="s" (click)="onEstadoClick(estado)">
+            {{ estado }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- <section class="aside space-y-4 p-2">
+  <h6 class="font-bold">Sul</h6>
+  <div class="grid grid-cols-3 gap-2">
+    @for (estado of sul; track estado) {
+      <button
+        type="button"
+        class="btn btn-danger m-1"
+        (click)="onEstadoClick(estado)"
+      >
+        {{ estado }}
+      </button>
+    }
+  </div>
+</section> -->
+
+<!-- <div>
+    <h6 class="font-bold">Nordeste</h6>
+    <div class="grid grid-cols-3 gap-2">
+      <button *ngFor="let uf of nordeste" class="btn btn-primary" (click)="getMapExtraInfo(uf)">
+        {{ uf }}
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <h6 class="font-bold">Centro-Oeste</h6>
+    <div class="grid grid-cols-3 gap-2">
+      <button *ngFor="let uf of centroOeste" class="btn btn-primary" (click)="getMapExtraInfo(uf)">
+        {{ uf }}
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <h6 class="font-bold">Sudeste</h6>
+    <div class="grid grid-cols-3 gap-2">
+      <button *ngFor="let uf of sudeste" class="btn btn-primary" (click)="getMapExtraInfo(uf)">
+        {{ uf }}
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <h6 class="font-bold">Sul</h6>
+    <div class="grid grid-cols-3 gap-2">
+      <button *ngFor="let uf of sul" class="btn btn-primary" (click)="getMapExtraInfo(uf)">
+        {{ uf }}
+      </button>
+    </div>
+  </div>
+</section> -->
+
+<!-- <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('AC')">
+    AC
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('AL')">
+    AL
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('AM')">
+    AM
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('AP')">
+    AP
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('BA')">
+    BA
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('CE')">
+    CE
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('DF')">
+    DF
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('ES')">
+    ES
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('GO')">
+    GO
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('MA')">
+    MA
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('MG')">
+    MG
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('MT')">
+    MT
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('MS')">
+    MS
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('PA')">
+    PA
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('PB')">
+    PB
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('PE')">
+    PE
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('PI')">
+    PI
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('PR')">
+    PR
+  </button>
+
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('RJ')">
+    RJ
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('RN')">
+    RN
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('RO')">
+    RO
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('RR')">
+    RR
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('RS')">
+    RS
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('SC')">
+    SC
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('SE')">
+    SE
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('SP')">
+    SP
+  </button>
+  <button type="button" class="btn btn-primary" (click)="getMapExtraInfo('TO')">
+    TO
+  </button> -->
+<!-- </section> -->

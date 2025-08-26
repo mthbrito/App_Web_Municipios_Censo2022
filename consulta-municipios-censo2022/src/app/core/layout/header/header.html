@@ -1,0 +1,31 @@
+<h2>Consulta de Municípios</h2>
+<form
+  id="form"
+  [formGroup]="entrada"
+  (ngSubmit)="onSubmit()"
+>
+  <select class="form-select form-select-lg" formControlName="atributo">
+    <option value="id">ID</option>
+    <option value="municipio">Município</option>
+    <option value="estado">Estado</option>
+    <option value="populacao">População</option>
+    <option value="area">Área</option>
+  </select>
+  <button type="submit" class="btn btn-primary">🔍</button>
+  <div class="inputs d-flex input-group">
+    <input
+      id="input1"
+      type="text"
+      class="form-control"
+      formControlName="valor1"
+    />
+    @if(entrada.value.atributo === 'populacao' || entrada.value.atributo ===
+    'area') {
+    <input
+      id="input2"
+      type="text"
+      class="form-control"
+      formControlName="valor2"
+    />}
+  </div>
+</form>

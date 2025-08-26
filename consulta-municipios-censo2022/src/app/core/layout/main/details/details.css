@@ -1,0 +1,24 @@
+#details {
+  width: 100%;
+  height: 100%;
+}
+
+.card {
+  text-align: center;
+  margin: 20px;
+  transition: border 0.3s ease;
+  color: #495057;
+
+}
+
+.card:hover {
+  border-color: #007bff;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.card.selected-card {
+  border-color: #007bff;
+  background-color: #007bff;
+  color: #fff;
+}

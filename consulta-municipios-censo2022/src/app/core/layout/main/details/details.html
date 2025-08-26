@@ -1,0 +1,34 @@
+<section id="details">
+  @if(showMapInfo()) {
+    @for(info of mapInfo(); track info.id) {
+      <div
+        class="card mb-4"
+        [attr.data-id]="info.id"
+        (click)="sharedService.updateMapInfo(info)"
+      >
+      <div class="card-body">
+        <h5 class="card-title">{{ info.municipio }}</h5>
+        <p class="card-text">Estado: {{ info.estado }}</p>
+        <p class="card-text">
+          População: {{ info.populacao | number : "1.0-0" }} hab.
+        </p>
+        <p class="card-text">Área: {{ info.area | number : "1.0-1" }} km²</p>
+      </div>
+      </div>
+    }
+  }
+  @else {
+    @for(info of mapExtraInfo(); track info.id) {
+      <div class="card mb-4" [attr.data-id]="info.id">
+      <div class="card-body">
+        <h5 class="card-title">{{ info.estado }}</h5>
+        <p class="card-text">Número de municípios: {{ info.qtde }}</p>
+        <p class="card-text">
+          População: {{ info.populacao | number : "1.0-0" }} hab.
+        </p>
+        <p class="card-text">Área: {{ info.area | number : "1.0-1" }} km²</p>
+      </div>
+    </div>
+  }
+  }
+</section>
