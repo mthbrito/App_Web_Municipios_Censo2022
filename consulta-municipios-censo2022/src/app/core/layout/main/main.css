@@ -11,7 +11,8 @@
   grid-area: details;
   height: 100%;
   width: 100%;
-  overflow-y: scroll;
   background-color: white;
   border: 1px solid #dee2e6;
+  /* importante: NÃO por overflow aqui */
+  overflow: hidden; /* garante que só .cards-container scrolla */
 }

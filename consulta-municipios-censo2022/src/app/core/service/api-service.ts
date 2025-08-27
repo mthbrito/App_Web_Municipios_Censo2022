@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MapInfo } from '../model/map-info';
-import { MapExtraInfo } from '../model/map-extra-info';
+import { Municipio } from '../model/municipio';
+import { Estado } from '../model/estado';
 
 @Injectable({
   providedIn: 'root',
@@ -12,105 +12,68 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getDadosMunicipios(): Observable<MapInfo[]> {
-    return this.http.get<MapInfo[]>(`${this.apiUrl}/municipios`);
+  getMunicipios(): Observable<Municipio[]> {
+    return this.http.get<Municipio[]>(`${this.apiUrl}/municipios`);
   }
 
-  getDadosById(id: string): Observable<MapInfo> {
-    return this.http.get<MapInfo>(`${this.apiUrl}/municipios/id/${id}`);
+  getMunicipioById(id: string): Observable<Municipio> {
+    return this.http.get<Municipio>(`${this.apiUrl}/municipios/id/${id}`);
   }
 
-  getDadosByMunicipio(municipio: string): Observable<MapInfo[]> {
-    return this.http.get<MapInfo[]>(
+  getMunicipiosByNome(municipio: string): Observable<Municipio[]> {
+    return this.http.get<Municipio[]>(
       `${this.apiUrl}/municipios/municipio/${municipio}`
     );
   }
 
-  getDadosByEstado(estado: string): Observable<MapInfo[]> {
-    return this.http.get<MapInfo[]>(
+  getMunicipiosByEstado(estado: string): Observable<Municipio[]> {
+    return this.http.get<Municipio[]>(
       `${this.apiUrl}/municipios/estado/${estado}`
     );
   }
 
-  getDadosByPopulacao(infLim: string, supLim: string): Observable<MapInfo[]> {
-    return this.http.get<MapInfo[]>(
+  getMunicipiosByPopulacao(
+    infLim: string,
+    supLim: string
+  ): Observable<Municipio[]> {
+    return this.http.get<Municipio[]>(
       `${this.apiUrl}/municipios/populacao/${infLim}/${supLim}`
     );
   }
 
-  getDadosByArea(infLim: string, supLim: string): Observable<MapInfo[]> {
-    return this.http.get<MapInfo[]>(
+  getMunicipiosByArea(infLim: string, supLim: string): Observable<Municipio[]> {
+    return this.http.get<Municipio[]>(
       `${this.apiUrl}/municipios/area/${infLim}/${supLim}`
     );
   }
 
-  getExtraDadosEstados(): Observable<MapExtraInfo[]> {
-    return this.http.get<MapExtraInfo[]>(`${this.apiUrl}/estados`);
+  getEstados(): Observable<Estado[]> {
+    return this.http.get<Estado[]>(`${this.apiUrl}/estados`);
   }
 
-  getExtraDadosById(id: string): Observable<MapExtraInfo> {
-    return this.http.get<MapExtraInfo>(`${this.apiUrl}/estados/id/${id}`);
+  getEstadoById(id: string): Observable<Estado> {
+    return this.http.get<Estado>(`${this.apiUrl}/estados/id/${id}`);
   }
 
-  getExtraDadosByEstado(estado: string): Observable<MapExtraInfo> {
-    return this.http.get<MapExtraInfo>(
-      `${this.apiUrl}/estados/estado/${estado}`
-    );
+  getEstadoByNome(estado: string): Observable<Estado> {
+    return this.http.get<Estado>(`${this.apiUrl}/estados/estado/${estado}`);
   }
 
-  getExtraDadosByQtde(infLim: string, supLim: string): Observable<MapExtraInfo[]> {
-    return this.http.get<MapExtraInfo[]>(
+  getEstadosByQtde(infLim: string, supLim: string): Observable<Estado[]> {
+    return this.http.get<Estado[]>(
       `${this.apiUrl}/estados/qtde/${infLim}/${supLim}`
     );
   }
 
-  getExtraDadosByPopulacao(
-    infLim: string,
-    supLim: string
-  ): Observable<MapExtraInfo[]> {
-    return this.http.get<MapExtraInfo[]>(
+  getEstadosByPopulacao(infLim: string, supLim: string): Observable<Estado[]> {
+    return this.http.get<Estado[]>(
       `${this.apiUrl}/estados/populacao/${infLim}/${supLim}`
     );
   }
 
-  getExtraDadosByArea(
-    infLim: string,
-    supLim: string
-  ): Observable<MapExtraInfo[]> {
-    return this.http.get<MapExtraInfo[]>(
+  getEstadosByArea(infLim: string, supLim: string): Observable<Estado[]> {
+    return this.http.get<Estado[]>(
       `${this.apiUrl}/estados/area/${infLim}/${supLim}`
     );
   }
-  // getGeomMunicipios(): Observable<MapGeometry[]> {
-  //   return this.http.get<MapGeometry[]>(`${this.apiUrl}/geom/municipios`);
-  // }
-
-  // getGeomById(id: string): Observable<MapGeometry> {
-  //   return this.http.get<MapGeometry>(`${this.apiUrl}/geom/id/${id}`);
-  // }
-
-  // getGeomByMunicipio(municipio: string): Observable<MapGeometry[]> {
-  //   return this.http.get<MapGeometry[]>(
-  //     `${this.apiUrl}/geom/municipio/${municipio}`
-  //   );
-  // }
-
-  // getGeomByEstado(estado: string): Observable<MapGeometry[]> {
-  //   return this.http.get<MapGeometry[]>(`${this.apiUrl}/geom/estado/${estado}`);
-  // }
-
-  // getGeomByPopulacao(
-  //   infLim: string,
-  //   supLim: string
-  // ): Observable<MapGeometry[]> {
-  //   return this.http.get<MapGeometry[]>(
-  //     `${this.apiUrl}/geom/populacao/${infLim}/${supLim}`
-  //   );
-  // }
-
-  // getGeomByArea(infLim: string, supLim: string): Observable<MapGeometry[]> {
-  //   return this.http.get<MapGeometry[]>(
-  //     `${this.apiUrl}/geom/area/${infLim}/${supLim}`
-  //   );
-  // }
 }

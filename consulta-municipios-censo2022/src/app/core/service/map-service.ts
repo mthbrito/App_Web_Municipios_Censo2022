@@ -1,109 +1,116 @@
-import { MapInfo } from './../model/map-info';
-import { Injectable, signal, Signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { ApiService } from './api-service';
-import * as L from 'leaflet';
-import { MapExtraInfo } from '../model/map-extra-info';
+import { Municipio } from '../model/municipio';
+import { Estado } from '../model/estado';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
-  public mapInfo = signal<MapInfo[]>([]);
-  public mapExtraInfo = signal<MapExtraInfo[]>([]);
+  public municipio = signal<Municipio[]>([]);
+  public estado = signal<Estado[]>([]);
 
   constructor(private apiService: ApiService) {}
 
-  public getDadosMunicipios(): void {
-    this.apiService.getDadosMunicipios().subscribe((data) => {
-      this.mapInfo.set(data);
-    });
-  }
-
-  public getDadosById(id: string): void {
-    this.apiService.getDadosById(id).subscribe((data) => {
-      this.mapInfo.set([data]);
-    });
-  }
-
-  public getDadosByMunicipio(municipio: string): void {
-    this.apiService.getDadosByMunicipio(municipio).subscribe((data) => {
-      this.mapInfo.set(data);
-    });
-  }
-
-  public getDadosByEstado(estado: string): void {
-    this.apiService.getDadosByEstado(estado).subscribe((data) => {
-      this.mapInfo.set(data);
-    });
-  }
-
-  public getDadosByPopulacao(infLim: string, supLim: string): void {
-    this.apiService.getDadosByPopulacao(infLim, supLim).subscribe((data) => {
-      this.mapInfo.set(data);
-    });
-  }
-
-  public getDadosByArea(infLim: string, supLim: string): void {
-    this.apiService.getDadosByArea(infLim, supLim).subscribe((data) => {
-      this.mapInfo.set(data);
-    });
-  }
-
-  public pesquisar(atributo: string, valor1: string, valor2?: string): void {
+  public pesquisarMunicipio(
+    atributo: string,
+    valor1: string,
+    valor2?: string
+  ): void {
     switch (atributo) {
       case 'id':
-        this.getDadosById(valor1);
+        this.getMunicipioById(valor1);
         break;
       case 'municipio':
-        this.getDadosByMunicipio(valor1);
+        this.getMunicipiosByNome(valor1);
         break;
       case 'estado':
-        this.getDadosByEstado(valor1);
+        this.getMunicipiosByEstado(valor1);
         break;
       case 'populacao':
-        this.getDadosByPopulacao(valor1, valor2 ?? '');
+        this.getMunicipiosByPopulacao(valor1, valor2 ?? '');
         break;
       case 'area':
-        this.getDadosByArea(valor1, valor2 ?? '');
+        this.getMunicipiosByArea(valor1, valor2 ?? '');
         break;
     }
   }
 
-  public getExtraDadosEstados(): void {
-    this.apiService.getExtraDadosEstados().subscribe((data) => {
-      this.mapExtraInfo.set(data);
+  public pesquisarEstado(valor: string): void {
+    this.getEstadoByNome(valor);
+  }
+
+  public getMunicipios(): void {
+    this.apiService.getMunicipios().subscribe((data) => {
+      this.municipio.set(data);
     });
   }
 
-  public getExtraDadosById(id: string): void {
-    this.apiService.getExtraDadosById(id).subscribe((data) => {
-      this.mapExtraInfo.set([data]);
+  public getMunicipioById(id: string): void {
+    this.apiService.getMunicipioById(id).subscribe((data) => {
+      this.municipio.set([data]);
     });
   }
 
-  public getExtraDadosByEstado(estado: string): void {
-    this.apiService.getExtraDadosByEstado(estado).subscribe((data) => {
-      this.mapExtraInfo.set([data]);
+  public getMunicipiosByNome(municipio: string): void {
+    this.apiService.getMunicipiosByNome(municipio).subscribe((data) => {
+      this.municipio.set(data);
     });
   }
 
-  public getExtraDadosByQtde(infLim: string, supLim: string): void {
-    this.apiService.getExtraDadosByQtde(infLim, supLim).subscribe((data) => {
-      this.mapExtraInfo.set(data);
+  public getMunicipiosByEstado(estado: string): void {
+    this.apiService.getMunicipiosByEstado(estado).subscribe((data) => {
+      this.municipio.set(data);
     });
   }
 
-  public getExtraDadosByPopulacao(infLim: string, supLim: string): void {
+  public getMunicipiosByPopulacao(infLim: string, supLim: string): void {
     this.apiService
-      .getExtraDadosByPopulacao(infLim, supLim)
+      .getMunicipiosByPopulacao(infLim, supLim)
       .subscribe((data) => {
-        this.mapExtraInfo.set(data);
+        this.municipio.set(data);
       });
   }
 
-  public getExtraDadosByArea(infLim: string, supLim: string): void {
-    this.apiService.getExtraDadosByArea(infLim, supLim).subscribe((data) => {
-      this.mapExtraInfo.set(data);
+  public getMunicipiosByArea(infLim: string, supLim: string): void {
+    this.apiService.getMunicipiosByArea(infLim, supLim).subscribe((data) => {
+      this.municipio.set(data);
+    });
+  }
+
+  public getEstados(): void {
+    this.apiService.getEstados().subscribe((data) => {
+      this.estado.set(data);
+    });
+  }
+
+  public getEstadosById(id: string): void {
+    this.apiService.getEstadoById(id).subscribe((data) => {
+      this.estado.set([data]);
+    });
+  }
+
+  public getEstadoByNome(estado: string): void {
+    this.apiService.getEstadoByNome(estado).subscribe((data) => {
+      this.estado.set([data]);
+    });
+  }
+
+  public getEstadosByQtde(infLim: string, supLim: string): void {
+    this.apiService.getEstadosByQtde(infLim, supLim).subscribe((data) => {
+      this.estado.set(data);
+    });
+  }
+
+  public getEstadosByPopulacao(infLim: string, supLim: string): void {
+    this.apiService.getEstadosByPopulacao(infLim, supLim).subscribe((data) => {
+      this.estado.set(data);
+    });
+  }
+
+  public getEstadosByArea(infLim: string, supLim: string): void {
+    this.apiService.getEstadosByArea(infLim, supLim).subscribe((data) => {
+      this.estado.set(data);
     });
   }
 }

@@ -1,23 +1,22 @@
-import { effect, Injectable, signal } from '@angular/core';
-import { MapInfo } from '../core/model/map-info';
+import { MapService } from './../core/service/map-service';
+import { Municipio } from './../core/model/municipio';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedService {
-  public mapInfo = signal<MapInfo | null>(null);
-  showMapInfo = signal(true);
+  public municipioEscolhido = signal<Municipio | null>(null);
 
-  public updateMapInfo(info: MapInfo | null) {
-    this.mapInfo.set(info);
-    console.log('updateMapInfo ->', info);
+  public mostrarDetalhesMunicipios = signal(true);
+
+  constructor(public mapService: MapService) {}
+
+  public mostrarInformacoesMunicipios() {
+    this.mostrarDetalhesMunicipios.set(true);
   }
 
-  showInfoList() {
-    this.showMapInfo.set(true);
-  }
-
-  showExtraInfoList() {
-    this.showMapInfo.set(false);
+  public mostrarInformacoesEstados() {
+    this.mostrarDetalhesMunicipios.set(false);
   }
 }

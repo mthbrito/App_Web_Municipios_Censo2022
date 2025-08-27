@@ -13,7 +13,6 @@ h2 {
   width: 100%;
   align-items: center;
   padding: 0 20px;
-  /* border: 1px solid black; */
 }
 
 select {
@@ -43,16 +42,4 @@ input {
   justify-content: center;
   width: 100%;
   height: 50%;
-  /* border: 1px solid black; */
 }
-
-/* #input1 {
-  grid-area: input1;
-  width: 90%;
-  height: 50%;
-}
-
-#input2 {
-  grid-area: input2;
-  width: 90%;
-  height: 50%; */

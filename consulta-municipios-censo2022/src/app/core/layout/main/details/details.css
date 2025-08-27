@@ -1,6 +1,15 @@
 #details {
+  position: relative; /* necessário para conter a .counter */
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-container {
+  flex: 1;
+  overflow-y: auto;
+  /* padding-bottom: 40px; */
 }
 
 .card {
@@ -8,7 +17,6 @@
   margin: 20px;
   transition: border 0.3s ease;
   color: #495057;
-
 }
 
 .card:hover {
@@ -21,4 +29,17 @@
   border-color: #007bff;
   background-color: #007bff;
   color: #fff;
+}
+
+.counter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - 17px);
+  text-align: center;
+  background-color: #007bff;
+  color: white;
+  padding: 6px;
+  border-top: 1px solid #ccc;
+  margin: 0;
 }

@@ -1,9 +1,9 @@
-import { MapExtraInfo } from './../../../model/map-extra-info';
-import { MapInfo } from './../../../model/map-info';
+import { Municipio } from './../../../model/municipio';
 import { Component, effect, signal } from '@angular/core';
 import { MapService } from '../../../service/map-service';
 import { SharedService } from '../../../../shared/shared-service';
 import { DecimalPipe } from '@angular/common';
+import { Estado } from '../../../model/estado';
 
 @Component({
   selector: 'app-details',
@@ -12,24 +12,30 @@ import { DecimalPipe } from '@angular/common';
   styleUrl: './details.css',
 })
 export class Details {
-  mapInfo = signal<MapInfo[]>([]);
-  mapExtraInfo = signal<MapExtraInfo[]>([]);
-  showMapInfo = signal(true);
+  public municipio = signal<Municipio[]>([]);
+  public estado = signal<Estado[]>([]);
+  public mostrarDetalhesMunicipios = signal(true);
+  public counter = 0;
 
   constructor(
     public mapService: MapService,
     public sharedService: SharedService
   ) {
     effect(() => {
-      this.mapInfo = this.mapService.mapInfo;
+      this.municipio = this.mapService.municipio;
     });
 
     effect(() => {
-      this.mapExtraInfo = this.mapService.mapExtraInfo;
+      this.estado = this.mapService.estado;
     });
 
     effect(() => {
-      this.showMapInfo = this.sharedService.showMapInfo;
+      this.mostrarDetalhesMunicipios =
+        this.sharedService.mostrarDetalhesMunicipios;
     });
+  }
+
+  atualizarMunicipioEscolhido(municipio: Municipio) {
+    this.sharedService.municipioEscolhido.set(municipio);
   }
 }

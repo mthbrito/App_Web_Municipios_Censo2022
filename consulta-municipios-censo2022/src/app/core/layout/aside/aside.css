@@ -71,9 +71,9 @@
 }
 
 .collapse-btn {
-  background: none;          /* sem fundo */
-  border: none;              /* sem borda */
-  font-size: 1rem;         /* tamanho parecido com h1/h6 */
+  background: none;
+  border: none;
+  font-size: 1rem;
   font-weight: bold;
   text-align: center;
   width: 100%;
@@ -81,12 +81,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;               /* espaço entre texto e seta */
+  gap: 0.5rem;
   padding: 0.25rem 0;
   color: #495057;
 }
 
- .collapse-btn:focus {
+.collapse-btn:focus {
   outline: none;
 }
 
@@ -104,7 +104,5 @@
 }
 
 .collapse-btn[aria-expanded="false"] .collapse-arrow {
-  transform: rotate(0deg); }
-
-
-
+  transform: rotate(0deg);
+}

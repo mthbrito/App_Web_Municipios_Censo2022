@@ -1,7 +1,6 @@
 import { SharedService } from './../../../shared/shared-service';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
 import { MapService } from '../../service/map-service';
 
 @Component({
@@ -22,9 +21,13 @@ export class Header {
     public sharedService: SharedService
   ) {}
 
-  onSubmit() {
+  onSubmit(): void {
     const { atributo, valor1, valor2 } = this.entrada.value;
-    this.mapService.pesquisar(atributo ?? '', valor1 ?? '', valor2 ?? '');
-    this.sharedService.showInfoList();
+    this.mapService.pesquisarMunicipio(
+      atributo ?? '',
+      valor1 ?? '',
+      valor2 ?? ''
+    );
+    this.sharedService.mostrarInformacoesMunicipios();
   }
 }

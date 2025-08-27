@@ -1,9 +1,9 @@
-import { MapExtraInfo } from './../../../model/map-extra-info';
+import { Municipio } from './../../../model/municipio';
 import { SharedService } from './../../../../shared/shared-service';
-import { Component, effect, Signal, signal } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { MapService } from '../../../service/map-service';
-import { MapInfo } from '../../../model/map-info';
 import * as L from 'leaflet';
+import { Estado } from '../../../model/estado';
 
 @Component({
   selector: 'app-map',
@@ -12,71 +12,81 @@ import * as L from 'leaflet';
   styleUrl: './map.css',
 })
 export class Map {
-  private mapInfo = signal<MapInfo[]>([]);
-  private mapExtraInfo = signal<MapExtraInfo[]>([]);
-  private mapInstance = signal<L.Map | null>(null);
-  private highlightLayer: L.GeoJSON | null = null;
-  private selectedFeature: any = null;
+  private mapa = signal<L.Map | null>(null);
+  private municipio = signal<Municipio[]>([]);
+  private estado = signal<Estado[]>([]);
+  private camadaDestacada = signal<L.GeoJSON | null>(null);
 
   constructor(
     public mapService: MapService,
     public sharedService: SharedService
   ) {
     effect(() => {
-      this.mapInfo.set(this.mapService.mapInfo());
-      this.renderMapLayers();
+      this.municipio = this.mapService.municipio;
+      this.renderizarMapaMunicipio();
     });
     effect(() => {
-      this.mapExtraInfo.set(this.mapService.mapExtraInfo());
-      this.renderExtraMapLayers();
+      this.estado = this.mapService.estado;
+      this.renderizarMapaEstado();
     });
     effect(() => {
-      this.highlightSelectedFeature();
+      const municipio = this.sharedService.municipioEscolhido();
+      if (!municipio) return;
+      const camada = this.getCamadaById(municipio.id.toString());
+      if (!camada) return;
+      this.destacarCamada(camada);
+      this.mostrarCard(municipio);
     });
   }
 
   ngOnInit(): void {
-    this.initMap();
+    this.inicializarMapa();
   }
 
-  private initMap(): void {
-    this.mapInstance.set(L.map('map').setView([-16, -47], 5));
+  private inicializarMapa(): void {
+    this.mapa.set(L.map('map').setView([-16, -47], 5));
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
-    }).addTo(this.mapInstance() as L.Map);
+    }).addTo(this.mapa() as L.Map);
   }
 
-  private renderMapLayers(): void {
-    if (this.mapInstance()) {
-      this.clearExistingLayers();
+  private renderizarMapaMunicipio(): void {
+    if (this.mapa()) {
+      this.limparCamadasExistentes();
     }
-    const layers = new L.FeatureGroup(this.createGeoJsonLayers());
-    layers.addTo(this.mapInstance() as L.Map);
-    this.mapInstance()?.fitBounds(layers.getBounds());
-  }
-
-  private renderExtraMapLayers(): void {
-    if (this.mapInstance()) {
-      this.clearExistingLayers();
+    const camadas = this.criarCamadasMapaMunicipio();
+    if (!camadas || camadas.length === 0) {
+      return;
     }
-    const layers = new L.FeatureGroup(this.createExtraGeoJsonLayers());
-    layers.addTo(this.mapInstance() as L.Map);
-    this.mapInstance()?.fitBounds(layers.getBounds());
+    this.adicionarInteratividadeMapaMunicipio(camadas);
+    const camadasGrupo = new L.FeatureGroup(camadas).addTo(
+      this.mapa() as L.Map
+    );
+    this.mapa()?.fitBounds(camadasGrupo.getBounds());
   }
 
-  private clearExistingLayers(): void {
-    const currentMap = this.mapInstance();
-    if (!currentMap) return;
+  private renderizarMapaEstado(): void {
+    if (this.mapa()) {
+      this.limparCamadasExistentes();
+    }
+    const camada = this.criarCamadaMapaEstado();
+    if (!camada) return;
+    camada.addTo(this.mapa() as L.Map);
+    this.mapa()?.fitBounds(camada.getBounds());
+  }
 
-    currentMap.eachLayer((layer) => {
+  private limparCamadasExistentes(): void {
+    const mapaAtual = this.mapa();
+    if (!mapaAtual) return;
+    mapaAtual.eachLayer((layer) => {
       if (layer instanceof L.GeoJSON) {
-        currentMap.removeLayer(layer);
+        mapaAtual.removeLayer(layer);
       }
     });
   }
 
-  private createGeoJsonLayers(): L.GeoJSON[] {
-    return this.mapInfo().map((info) =>
+  private criarCamadasMapaMunicipio(): L.GeoJSON[] {
+    return this.municipio().map((info) =>
       L.geoJSON(
         {
           type: 'Feature',
@@ -87,101 +97,103 @@ export class Map {
             estado: info.estado,
             populacao: info.populacao,
             area: info.area,
+            geom: info.geom,
           },
         } as GeoJSON.Feature,
         {
-          style: { color: 'blue', weight: 2, fillOpacity: 0.2 },
-          onEachFeature: (feature, layer) => {
-            layer.on('click', () => {
-              this.selectedFeature = feature.properties;
-              this.sharedService.updateMapInfo(this.selectedFeature);
-              this.showCardSelectedFeature(this.selectedFeature.id);
-              if (this.highlightLayer) {
-                this.mapInstance()?.removeLayer(this.highlightLayer);
-                this.highlightLayer = null;
-              }
-            });
-          },
+          style: { color: 'blue', weight: 1, fillOpacity: 0.2 },
         }
       )
     );
   }
 
-  private createExtraGeoJsonLayers(): L.GeoJSON[] {
-    return this.mapExtraInfo().map((info) =>
-      L.geoJSON(
-        {
-          type: 'Feature',
-          geometry: JSON.parse(info.geom) as GeoJSON.Geometry,
-          properties: {
-            id: info.id,
-            estado: info.estado,
-            qtde: info.qtde,
-            populacao: info.populacao,
-            area: info.area,
-          },
-        } as GeoJSON.Feature,
-        {
-          style: { color: 'blue', weight: 2, fillOpacity: 0.2 },
-          onEachFeature: (feature, layer) => {
-            layer.on('click', () => {
-              this.selectedFeature = feature.properties;
-              this.sharedService.updateMapInfo(this.selectedFeature);
-              this.showCardSelectedFeature(this.selectedFeature.id);
-              if (this.highlightLayer) {
-                this.mapInstance()?.removeLayer(this.highlightLayer);
-                this.highlightLayer = null;
-              }
-            });
-          },
-        }
-      )
-    );
-  }
-
-  private highlightSelectedFeature() {
-    const info = this.sharedService.mapInfo();
-    if (!info || !this.mapInstance()) {
-      return;
+  private criarCamadaMapaEstado(): L.GeoJSON | null {
+    const estados = this.estado();
+    if (!estados || estados.length === 0) {
+      return null;
     }
-    if (this.highlightLayer) {
-      this.mapInstance()?.removeLayer(this.highlightLayer);
-      this.highlightLayer = null;
-    }
-    this.highlightLayer = L.geoJSON(
+    const info = estados[0];
+    return L.geoJSON(
       {
         type: 'Feature',
         geometry: JSON.parse(info.geom) as GeoJSON.Geometry,
         properties: {
           id: info.id,
-          municipio: info.municipio,
           estado: info.estado,
+          qtde: info.qtde,
           populacao: info.populacao,
           area: info.area,
         },
       } as GeoJSON.Feature,
-
       {
-        style: { color: 'red', weight: 3, fillOpacity: 0.5 },
+        style: { color: 'blue', weight: 2, fillOpacity: 0.2 },
       }
     );
-
-    this.highlightLayer.addTo(this.mapInstance() as L.Map);
-    this.mapInstance()?.flyToBounds(this.highlightLayer.getBounds());
   }
 
-  private showCardSelectedFeature(id: string) {
+  private adicionarInteratividadeMapaMunicipio(camadas: L.GeoJSON[]) {
+    camadas.forEach((camada) => {
+      camada.on('click', (e) => {
+        const propriedades = e.propagatedFrom.feature.properties;
+        const municipio: Municipio = {
+          id: propriedades.id,
+          municipio: propriedades.municipio,
+          estado: propriedades.estado,
+          populacao: propriedades.populacao,
+          area: propriedades.area,
+          geom: propriedades.geom,
+        };
+        this.sharedService.municipioEscolhido.set(municipio);
+        this.destacarCamada(camada);
+      });
+    });
+  }
+
+  private destacarCamada(camada: L.GeoJSON | null) {
+    if (!camada) {
+      return;
+    }
+    if (this.camadaDestacada()) {
+      this.camadaDestacada()?.setStyle({
+        color: 'blue',
+        weight: 2,
+        fillOpacity: 0.2,
+      });
+    }
+    camada.setStyle({ color: 'red', weight: 3, fillOpacity: 0.4 });
+    camada.bringToFront();
+    this.camadaDestacada.set(camada);
+    const mapaAtual = this.mapa();
+    if (mapaAtual) {
+      mapaAtual.flyToBounds(camada.getBounds(), {
+        duration: 1.0,
+        padding: [150, 150],
+      });
+    }
+  }
+
+  private getCamadaById(id: string): L.GeoJSON | null {
+    let camada: L.GeoJSON | null = null;
+    this.mapa()?.eachLayer((layer) => {
+      if (layer instanceof L.GeoJSON) {
+        layer.eachLayer((subLayer: any) => {
+          if (subLayer.feature?.properties?.id?.toString() === id) {
+            camada = layer;
+          }
+        });
+      }
+    });
+    return camada;
+  }
+
+  private mostrarCard(municipio: Municipio) {
     document
       .querySelectorAll('.card.selected-card')
       .forEach((card) => card.classList.remove('selected-card'));
-    const card = document.querySelector(`.card[data-id="${id}"]`);
+    const card = document.querySelector(`.card[data-id="${municipio.id}"]`);
     if (card) {
       card.scrollIntoView({ behavior: 'smooth', block: 'center' });
       card.classList.add('selected-card');
     }
-  }
-
-  public onCardClick(info: any) {
-    this.sharedService.updateMapInfo(info);
   }
 }

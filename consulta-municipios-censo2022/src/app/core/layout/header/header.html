@@ -1,9 +1,5 @@
 <h2>Consulta de Municípios</h2>
-<form
-  id="form"
-  [formGroup]="entrada"
-  (ngSubmit)="onSubmit()"
->
+<form id="form" [formGroup]="entrada" (ngSubmit)="onSubmit()">
   <select class="form-select form-select-lg" formControlName="atributo">
     <option value="id">ID</option>
     <option value="municipio">Município</option>
@@ -11,7 +7,9 @@
     <option value="populacao">População</option>
     <option value="area">Área</option>
   </select>
+
   <button type="submit" class="btn btn-primary">🔍</button>
+
   <div class="inputs d-flex input-group">
     <input
       id="input1"

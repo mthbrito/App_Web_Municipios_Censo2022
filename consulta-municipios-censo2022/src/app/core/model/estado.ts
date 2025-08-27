@@ -1,4 +1,4 @@
-export interface MapExtraInfo {
+export interface Estado {
   id: number;
   estado: string;
   qtde: number;
